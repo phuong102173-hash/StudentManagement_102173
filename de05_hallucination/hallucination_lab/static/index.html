@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Hallucination Lab · Kiểm chứng đầu ra LLM</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Hallucination Lab — Trang chủ"><span class="brandmark">H<span>·</span></span> Hallucination<span class="muted">Lab</span></a>
+    <div class="topmeta"><span class="status-dot"></span> KIỂM CHỨNG CÓ CĂN CỨ <span class="course-tag">ĐỀ 05</span></div>
+  </header>
+  <main>
+    <section class="intro">
+      <div><p class="eyebrow">LLM RELIABILITY / RESEARCH WORKSPACE</p>
+        <h1>Đừng chỉ đọc.<br><em>Hãy kiểm chứng.</em></h1>
+        <p class="lead">Đối chiếu câu trả lời AI với tài liệu nguồn.<br>Phát hiện thông tin thiếu căn cứ, xem rõ từng bằng chứng.</p>
+      </div>
+      <div class="intro-note"><span class="note-index">01 — 05</span><p>Năm góc nhìn.<br>Một câu trả lời<br><strong>đáng tin hơn.</strong></p><span class="note-line"></span><small>FActScore · SelfCheckGPT · HHEM<br>LLM-as-Judge · NLI DeBERTa</small></div>
+    </section>
+    <section class="workspace">
+      <form id="detect-form" class="input-panel">
+        <div class="panel-heading"><h2><span class="step">01</span> Nội dung kiểm tra</h2><button type="button" id="clear-form" class="text-button">Xóa nội dung ↺</button></div>
+        <div class="field-label"><label for="claim">Câu trả lời của LLM <span>*</span></label><span id="claim-count">0 / 6.000</span></div>
+        <textarea id="claim" name="claim" maxlength="6000" rows="4" required placeholder="Dán một câu trả lời hoặc một khẳng định cần kiểm chứng…"></textarea>
+        <div class="field-label"><label for="context">Ngữ cảnh / tài liệu nguồn</label><span>ĐỐI CHIẾU TRỰC TIẾP</span></div>
+        <textarea id="context" name="context" maxlength="40000" rows="6" placeholder="Cung cấp tài liệu gốc đáng tin cậy. Hệ thống kiểm tra câu trả lời so với nguồn này, không tự xác minh nguồn là đúng."></textarea>
+        <details class="advanced"><summary>Câu hỏi & các câu trả lời lấy mẫu <span>SelfCheckGPT</span></summary>
+          <label for="question">Câu hỏi gốc</label><input id="question" maxlength="4000" placeholder="Câu hỏi mà model đã trả lời">
+          <label for="samples">Các mẫu độc lập, ngăn cách bằng một dòng trống</label><textarea id="samples" rows="4" placeholder="Mẫu 1 từ cùng model…&#10;&#10;Mẫu 2 từ cùng model…"></textarea>
+        </details>
+        <div class="method-row"><div><label for="method">Phương pháp phát hiện</label><select id="method" name="method"><option value="evidence_baseline">Baseline minh họa</option></select></div><div class="threshold-field"><label for="threshold">Ngưỡng quyết định</label><input id="threshold" type="number" min="0" max="1" step="0.05" value="0.5" required></div></div>
+        <p id="method-help" class="helper">Baseline từ vựng chạy ngay; 5 detector nghiên cứu cần cấu hình model.</p>
+        <button id="submit" type="submit" class="primary-button"><span>Kiểm chứng nội dung</span><span id="submit-icon">↗</span></button>
+        <p class="privacy">Không lưu nội dung đầu vào. Khi chọn detector dùng LLM, nội dung được gửi đến endpoint đã cấu hình.</p>
+      </form>
+      <div class="result-panel">
+        <div class="panel-heading"><h2><span class="step">02</span> Kết quả đối chiếu</h2><span class="live-label">ANALYSIS</span></div>
+        <div id="loading" class="loading hidden" role="status"><span class="spinner"></span><h3>Đang đối chiếu bằng chứng…</h3><p>Thời gian tùy thuộc phương pháp và số lượng mệnh đề.</p></div>
+        <div id="error" class="error hidden" role="alert"></div>
+        <div id="empty-state" class="empty-state"><div class="scan-icon"><span>✓</span></div><p class="eyebrow">BẰNG CHỨNG TRƯỚC, KẾT LUẬN SAU</p><h3>Mỗi khẳng định<br>đều cần một điểm tựa.</h3><p>Nhập nội dung bên trái hoặc chọn ví dụ<br>bên dưới để bắt đầu kiểm tra.</p><div class="empty-tags"><span>Phân tích mệnh đề</span><span>Trích dẫn nguồn</span><span>Xuất JSON</span></div></div>
+        <div id="result" class="hidden" aria-live="polite">
+          <div class="verdict-top"><span id="verdict-label" class="verdict-tag"></span><span id="latency" class="muted"></span></div>
+          <h3 id="result-title"></h3><p id="result-explanation" class="result-explanation"></p>
+          <div class="score-box"><div><span>ĐIỂM HALLUCINATION</span><strong id="score-value">—</strong></div><div class="score-track"><div id="score-fill"></div><span id="threshold-marker"></span></div><p>Điểm cao → ít được hỗ trợ hơn <span id="threshold-note"></span></p></div>
+          <div id="warnings" class="warnings"></div>
+          <div class="findings-heading"><h4>Mệnh đề & bằng chứng</h4><span id="findings-count"></span></div><div id="findings"></div>
+          <details id="components-wrapper" class="advanced hidden"><summary>Kết quả 5 detector</summary><div id="components"></div></details>
+          <button id="download" type="button" class="download-button">↓ Tải báo cáo JSON</button>
+        </div>
+      </div>
+    </section>
+    <section class="example-section"><div><p class="eyebrow">BẮT ĐẦU VỚI MỘT VÍ DỤ</p><h2>Thử một tình huống.</h2></div><div id="examples" class="example-list"></div></section>
+    <footer><span>HALLUCINATION LAB <span class="footer-divider">/</span> Đề tài 05 · Kỹ thuật Học sâu & Ứng dụng</span><span>Điểm số hỗ trợ đánh giá, không thay thế kiểm chứng của con người.</span></footer>
+  </main>
+</body>
+</html>

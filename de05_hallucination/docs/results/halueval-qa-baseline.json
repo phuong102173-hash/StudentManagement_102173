@@ -1,0 +1,79 @@
+{
+  "created_at": "2026-11-05T10:53:16.270118+00:00",
+  "source": "data/processed/halueval-qa.jsonl",
+  "source_sha256": "e50ab1558be60325076c959b06aaa65c00e88580065fec485d3f38a0e09a75b1",
+  "splits": {
+    "test": 2980
+  },
+  "threshold": 0.5,
+  "elapsed_seconds": 0.357,
+  "metrics": {
+    "evidence_baseline": {
+      "total": 2980,
+      "evaluated": 2980,
+      "coverage": 1.0,
+      "abstained": 0,
+      "errors": 0,
+      "precision": 0.9185185185185185,
+      "recall": 0.9154362416107382,
+      "f1": 0.9169747899159664,
+      "accuracy": 0.9171140939597315,
+      "auc_roc": 0.9114704292599433,
+      "cohen_kappa": 0.8342281879194631,
+      "brier_score": null,
+      "confusion_matrix": [
+        [
+          1369,
+          121
+        ],
+        [
+          126,
+          1364
+        ]
+      ],
+      "positive_class": "hallucination=1",
+      "by_dataset": {
+        "HaluEval/qa": {
+          "total": 2980,
+          "evaluated": 2980,
+          "coverage": 1.0,
+          "abstained": 0,
+          "errors": 0,
+          "precision": 0.9185185185185185,
+          "recall": 0.9154362416107382,
+          "f1": 0.9169747899159664,
+          "accuracy": 0.9171140939597315,
+          "auc_roc": 0.9114704292599433,
+          "cohen_kappa": 0.8342281879194631,
+          "brier_score": null,
+          "confusion_matrix": [
+            [
+              1369,
+              121
+            ],
+            [
+              126,
+              1364
+            ]
+          ],
+          "positive_class": "hallucination=1"
+        }
+      }
+    }
+  },
+  "configuration": {
+    "JUDGE_MODEL": null,
+    "NLI_MODEL": null,
+    "NLI_REVISION": null,
+    "HHEM_MODEL": null,
+    "HHEM_REVISION": null,
+    "MODEL_DEVICE": null
+  },
+  "calibration": null,
+  "limitations": [
+    "Metrics exclude errors/abstentions; always report coverage.",
+    "Cohen kappa here compares detector labels with gold, not human-human agreement.",
+    "Demo data are authored fixtures, not an official benchmark.",
+    "Scores are uncalibrated unless a held-out calibration file was explicitly applied."
+  ]
+}

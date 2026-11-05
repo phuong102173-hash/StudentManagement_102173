@@ -1,0 +1,9 @@
+{
+  "dataset": "truthfulqa",
+  "url": "https://raw.githubusercontent.com/sylinrl/TruthfulQA/main/TruthfulQA.csv",
+  "revision": "main",
+  "sha256": "b8d8ef1e12f98b4f2a9f47abc9765da0640b182b6c5d9b92f0c1a1f2f1e02e5c",
+  "bytes": 503550,
+  "downloaded_at": "2026-11-05T10:47:57.953585+00:00",
+  "note": "Checksum records this download; it is not a publisher-signed digest."
+}

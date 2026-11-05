@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hallucination-lab"
+version = "0.1.0"
+description = "Đề 5 — phát hiện hallucination và đánh giá độ trung thực đầu ra LLM"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi==0.121.0",
+  "uvicorn==0.38.0",
+  "httpx==0.28.1",
+  "pydantic==2.12.3",
+  "scikit-learn==1.7.2",
+]
+
+[project.optional-dependencies]
+test = ["pytest==8.4.2", "ruff==0.14.3"]
+models = ["transformers>=4.45,<5", "torch>=2.4,<3", "sentencepiece>=0.2,<0.3", "sentence-transformers>=3,<6"]
+
+[project.scripts]
+hallucination-lab = "hallucination_lab.cli:main"
+
+[tool.setuptools.package-data]
+hallucination_lab = ["static/*"]
+
+[tool.setuptools.packages.find]
+include = ["hallucination_lab*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 110
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]

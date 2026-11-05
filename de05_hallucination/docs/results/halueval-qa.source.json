@@ -1,0 +1,9 @@
+{
+  "dataset": "halueval-qa",
+  "url": "https://raw.githubusercontent.com/RUCAIBox/HaluEval/main/data/qa_data.json",
+  "revision": "main",
+  "sha256": "89ed139ec5e3a3169a0b30e45569ac1283846f76f27f7bb5e908ee6deed57e88",
+  "bytes": 6164420,
+  "downloaded_at": "2026-11-05T10:47:57.544678+00:00",
+  "note": "Checksum records this download; it is not a publisher-signed digest."
+}
